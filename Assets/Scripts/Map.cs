@@ -34,7 +34,7 @@ public class Map : MonoBehaviour
 	public GameObject ground;
 	private List<Vector3> freePositions = new List<Vector3> ();
 	private Node[,] grid;
-	private const float tilesScale = 1f; //0.9f;
+	private const float tilesScale = 1f; // 0.9f;
 	private Transform boardHolder;
 	private Transform coinHolder;
 

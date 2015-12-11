@@ -12,7 +12,7 @@ public class Hero : MovingObject {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector2 movement = new Vector2 ((int)Input.GetAxisRaw("Horizontal"),(int)Input.GetAxisRaw("Vertical"));
+		Vector2 movement = new Vector2 (Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
 		//Check if moving horizontally, if so set vertical to zero.
 		if (movement.x != 0) {
 			movement.y = 0;
