@@ -1,76 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class MovingObject : MonoBehaviour {
+public class MovingObject : MonoBehaviour {
 
-	public float moveTime = 0.1f;			//Time it will take object to move, in seconds.
-	public LayerMask blockingLayer;
+    private float inverseMoveTime; //Used to make movement more efficient.
+    private BoxCollider2D boxCollider;
 
-	protected bool facingRight = true;
-	protected Animator animator;
+    protected Animator animator;
+    protected Rigidbody2D rBody;
+    protected SpriteRenderer spRender;
 
-	private BoxCollider2D boxCollider;
-	protected Rigidbody2D rBody;
-	private float inverseMoveTime;          //Used to make movement more efficient.
+    public float moveTime = 0.1f;
+    public LayerMask blockingLayer;
 
-	// Use this for initialization
-	protected virtual void Start () {
-		boxCollider = GetComponent <BoxCollider2D> ();
-		rBody = GetComponent <Rigidbody2D> ();
-		animator = GetComponent<Animator> ();
-		//By storing the reciprocal of the move time we can use it by multiplying instead of dividing, this is more efficient.
-		inverseMoveTime = 1f / moveTime;
-	}
+    // Use this for initialization
+    protected virtual void Start() {
+        inverseMoveTime = 1f / moveTime;
+        rBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spRender = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        blockingLayer = LayerMask.GetMask("BockingLayer");
+    }
 
-	//Move takes parameters for x direction, y direction
-	protected void Move (Vector2 movement)
-	{
-		//Store start position to move from, based on objects current transform position.
-		//Vector2 start = transform.position;
-		
-		// Calculate end position based on the direction parameters passed in when calling Move.
-		//Vector2 end = start + movement;
-		
-		rBody.MovePosition (rBody.position + movement * Time.deltaTime*moveTime);
+    // Update is called once per frame
+    void Update() {
+    }
 
-		//If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
-		//StartCoroutine (SmoothMovement (end));
-	}
+    protected void Walk(Vector3 finish) {
+        if ((rBody.position.x - finish.x) < 0 && spRender.flipX) {
+            spRender.flipX = !spRender.flipX;
+        }
+        else if ((rBody.position.x - finish.x) > 0 && !spRender.flipX) {
+            spRender.flipX = !spRender.flipX;
+        }
+        boxCollider.enabled = false;
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, finish, blockingLayer);
+        boxCollider.enabled = true;
+        //Check if anything was hit
+        if (hit.transform == null) {
+            StartCoroutine(SmoothMovement(finish));
+        }
+    }
 
-	//Co-routine for moving units from one space to next, takes a parameter end to specify where to move to.
-	protected IEnumerator SmoothMovement (Vector3 end)
-	{
-		//Calculate the remaining distance to move based on the square magnitude of the difference between current position and end parameter. 
-		//Square magnitude is used instead of magnitude because it's computationally cheaper.
-		float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-		
-		//While that distance is greater than a very small amount (Epsilon, almost zero):
-		while(sqrRemainingDistance > float.Epsilon)
-		{
-			//Find a new position proportionally closer to the end, based on the moveTime
-			Vector3 newPostion = Vector3.MoveTowards(rBody.position, end, inverseMoveTime * Time.deltaTime);
-			
-			//Call MovePosition on attached Rigidbody2D and move it to the calculated position.
-			rBody.MovePosition (newPostion);
-			
-			//Recalculate the remaining distance after moving.
-			sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-			
-			//Return and loop until sqrRemainingDistance is close enough to zero to end the function
-			yield return null;
-		}
-	}
-	
-	protected void Flip()
-	{
-		facingRight = !facingRight;
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
-	}
+    protected IEnumerator SmoothMovement(Vector3 finish) {
+        float sqrRemainingDistance = (transform.position - finish).sqrMagnitude;
 
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        while (sqrRemainingDistance > float.Epsilon) {
+            Vector3 newPostion = Vector3.MoveTowards(rBody.position, finish, inverseMoveTime * Time.deltaTime);
+            rBody.MovePosition(newPostion);
+            sqrRemainingDistance = (transform.position - finish).sqrMagnitude;
+            yield return null;
+        }
+    }
 }

@@ -1,55 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Zombie : MovingObject
-{
-	public int xDir = 0;
-	public int yDir = 0;
-	public Vector3 t;
+public class Zombie : MovingObject {
 
-	private Transform target;
-	private List<Vector3> path = new List<Vector3>();
-	private GameObject gameManager;
-	private bool facingRight;
+    private Transform target;
+    private List<Vector3> path = new List<Vector3>();
+    private Map map;
 
-	// Use this for initialization
-	protected override void Start ()
-	{
-		GameManager.instance.AddEnemyToList (this);
-		target = GameObject.FindGameObjectWithTag ("Hero").transform;
-		gameManager = GameObject.FindGameObjectWithTag ("Game_manager");
-		t = target.position;
-		base.Start ();
-		//InvokeRepeating ("MoveEnemy", 1, 1);
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate ()
-	{
-		MoveEnemy ();
-	}
+    // Use this for initialization
+    protected override void Start() {
+		base.Start();
 
-	//MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
-	public void MoveEnemy ()
-	{
-		FindPath ();
-		if (path!= null && path.Count != 0 ) {
-			//Move (path [path.Count-1]);
-			/*if((rBody.position.x - path [path.Count - 1].x) < 0 && !this.facingRight)
-				Flip();
-			else if((rBody.position.x - path [path.Count - 1].x) > 0 && this.facingRight)
-				Flip();*/
-			rBody.position = Vector3.MoveTowards (rBody.position, path [path.Count - 1], moveTime);
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        map = Map.instance;
+		//spRender.flipX = true;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate() {
+        path = Map.instance.FindPath(transform.position, target.position);
+		if (path != null && path.Count != 0) {
+			Walk (path [path.Count - 1]);
+		} else {
+			animator.SetTrigger ("is_attacking");
 		}
-	}
-
-	private void  FindPath ()
-	{
-		t = target.position;
-
-		Map map = gameManager.GetComponent<Map> ();
-		if (map != null) {
-			path = map.SearchPath (transform.position, target.position);
-		}
-	}
+    }
 }
