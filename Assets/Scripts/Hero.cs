@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Hero : MovingObject {
-    public int coins = 0;
 
     // Use this for initialization
     protected override void Start() {
@@ -11,7 +10,7 @@ public class Hero : MovingObject {
 
     // Update is called once per frame
     void Update() {
-        Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 movement = new Vector2((int)Input.GetAxisRaw("Horizontal"), (int)Input.GetAxisRaw("Vertical"));
         //Check if moving horizontally, if so set vertical to zero.
         if (movement.x != 0) {
             movement.y = 0;
@@ -26,13 +25,13 @@ public class Hero : MovingObject {
         else {
             animator.SetBool("is_walking", false);
         }
-        Vector3 end = rBody.transform.position + (Vector3)movement;
+        Vector3 end = rBody.transform.position + (Vector3)movement*moveTime;
         Walk(end);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Coin") {
-            coins++;
+			GameManager.instance.score++;
             Map.instance.DeleteCoin(other.gameObject);
         }
     }

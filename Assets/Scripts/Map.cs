@@ -4,13 +4,13 @@ using Random = UnityEngine.Random;
 
 public class Map : MonoBehaviour {
     private const float TIILES_SCALE = 1f; // 0.9f;    
+    private const int ADD_ENEMY_WHEN_SCORE = 2;//!Change to 10
     private Node[,] grid;
     private Transform boardHolder;
     private Transform coinHolder;
     private List<Vector3> freePositions = new List<Vector3>();
     private int coinsCount = 0;
     private int enemiesCount = 0;
-    //private List<Zombie> enemies;
 
     public static Map instance = null;
     public const int COLUMNS = 10;
@@ -42,7 +42,12 @@ public class Map : MonoBehaviour {
         InvokeRepeating("CheckCoinsCount", 5, 5);
     }
 
-    void Update() { }
+    void Update() {
+        if (enemiesCount < MAX_ENEMIES_COUNT && GameManager.instance.score == ADD_ENEMY_WHEN_SCORE) {
+            LayoutObjectAtRandom(enemy);
+            enemiesCount++;
+        }
+    }
 
     private void CreateMap() {
         BoardSetup();

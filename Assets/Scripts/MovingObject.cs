@@ -11,7 +11,7 @@ public class MovingObject : MonoBehaviour {
     protected SpriteRenderer spRender;
 
     public float moveTime = 0.1f;
-    public LayerMask blockingLayer;
+	public LayerMask blockingLayer = 1 << 8;
 
     // Use this for initialization
     protected virtual void Start() {
@@ -20,7 +20,7 @@ public class MovingObject : MonoBehaviour {
         animator = GetComponent<Animator>();
         spRender = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
-        blockingLayer = LayerMask.GetMask("BockingLayer");
+		//blockingLayer = LayerMask.LayerToName(Layer "BockingLayer");
     }
 
     // Update is called once per frame
@@ -34,9 +34,9 @@ public class MovingObject : MonoBehaviour {
         else if ((rBody.position.x - finish.x) > 0 && !spRender.flipX) {
             spRender.flipX = !spRender.flipX;
         }
-        boxCollider.enabled = false;
+        //boxCollider.enabled = false;
         RaycastHit2D hit = Physics2D.Linecast(transform.position, finish, blockingLayer);
-        boxCollider.enabled = true;
+       // boxCollider.enabled = true;
         //Check if anything was hit
         if (hit.transform == null) {
             StartCoroutine(SmoothMovement(finish));

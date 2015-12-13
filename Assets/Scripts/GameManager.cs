@@ -6,9 +6,9 @@ public class GameManager : MonoBehaviour {
     private Map mapScript;
 
     public static GameManager instance = null;            
-   
-
     public string user;
+	public bool gameOver = false;
+	public int score = 0;
 
     void Awake() {
         if (instance == null)
@@ -28,7 +28,10 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (gameOver) {
+			FileManager fileManager = GetComponent<FileManager> ();
+			fileManager.Save ();
+			Application.LoadLevel ("Menu");
+		}
 	}
-
-   
 }
