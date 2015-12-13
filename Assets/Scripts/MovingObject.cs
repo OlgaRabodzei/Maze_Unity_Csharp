@@ -20,7 +20,6 @@ public class MovingObject : MonoBehaviour {
         animator = GetComponent<Animator>();
         spRender = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
-		//blockingLayer = LayerMask.LayerToName(Layer "BockingLayer");
     }
 
     // Update is called once per frame
@@ -34,23 +33,10 @@ public class MovingObject : MonoBehaviour {
         else if ((rBody.position.x - finish.x) > 0 && !spRender.flipX) {
             spRender.flipX = !spRender.flipX;
         }
-        //boxCollider.enabled = false;
         RaycastHit2D hit = Physics2D.Linecast(transform.position, finish, blockingLayer);
-       // boxCollider.enabled = true;
         //Check if anything was hit
         if (hit.transform == null) {
-            StartCoroutine(SmoothMovement(finish));
-        }
-    }
-
-    protected IEnumerator SmoothMovement(Vector3 finish) {
-        float sqrRemainingDistance = (transform.position - finish).sqrMagnitude;
-
-        while (sqrRemainingDistance > float.Epsilon) {
-            Vector3 newPostion = Vector3.MoveTowards(rBody.position, finish, inverseMoveTime * Time.deltaTime);
-            rBody.MovePosition(newPostion);
-            sqrRemainingDistance = (transform.position - finish).sqrMagnitude;
-            yield return null;
+			rBody.position = Vector3.MoveTowards(rBody.position, finish, inverseMoveTime * Time.deltaTime);
         }
     }
 }

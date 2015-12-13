@@ -161,6 +161,12 @@ public class Map : MonoBehaviour {
         }
     }
 
+	public Vector3 GetRandomPosition(){
+		int randomIndex = Random.Range(0, freePositions.Count);
+		Vector3 randomPosition = freePositions[randomIndex];
+		return randomPosition;
+	}
+
     //RandomPosition returns a random position from our list freePositions.
     private Vector3 RandomPosition(bool _isWall) {
         //Declare an integer randomIndex, set it's value to a random number between 0 and the count of items in our List freePositions.

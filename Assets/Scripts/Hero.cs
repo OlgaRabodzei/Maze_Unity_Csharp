@@ -35,4 +35,17 @@ public class Hero : MovingObject {
             Map.instance.DeleteCoin(other.gameObject);
         }
     }
+
+	private void OnCollisionEnter2D(Collision2D collision){
+		GameObject obj = collision.gameObject;
+		if(obj.tag == "Zombie"){
+			obj.GetComponent<Animator>().SetBool ("is_attacking",true);
+			GameManager.instance.gameOver = true;
+			Invoke ("GameOver", 1);
+		}
+	}
+
+	private void GameOver(){
+		GameManager.instance.GameOver ();
+	}
 }

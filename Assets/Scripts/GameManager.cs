@@ -15,11 +15,12 @@ public class GameManager : MonoBehaviour {
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         mapScript = GetComponent<Map>();
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
         camera.transform.position = mapScript.GetCenter();
+		user = PlayerName.user;
     }
 
 	// Use this for initialization
@@ -28,6 +29,9 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+	}
+
+	public void GameOver(){
 		if (gameOver) {
 			FileManager fileManager = GetComponent<FileManager> ();
 			fileManager.Save ();

@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Hero.cs" />
      <Compile Include="Assets\Scripts\Map.cs" />
      <Compile Include="Assets\Scripts\MovingObject.cs" />
+     <Compile Include="Assets\Scripts\PlayerName.cs" />
      <Compile Include="Assets\Scripts\SceneManager.cs" />
      <Compile Include="Assets\Scripts\Zombie.cs" />
  <Reference Include="UnityEngine.UI">

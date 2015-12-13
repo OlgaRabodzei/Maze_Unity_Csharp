@@ -2,19 +2,18 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FileManager.cs">
     <Files>
+      <File FileName="Assets\Scripts\MovingObject.cs" Line="23" Column="1" />
       <File FileName="Assets\Scripts\FileManager.cs" Line="18" Column="1" />
-      <File FileName="Assets\Scripts\Zombie.cs" Line="48" Column="19" />
-      <File FileName="Assets\Scripts\Hero.cs" Line="37" Column="1" />
-      <File FileName="Assets\Scripts\Map.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MovingObject.cs" Line="56" Column="2" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="34" Column="32" />
-      <File FileName="Assets\Scripts\SceneManager.cs" Line="7" Column="39" />
+      <File FileName="Assets\Scripts\Zombie.cs" Line="40" Column="1" />
+      <File FileName="Assets\Scripts\Hero.cs" Line="35" Column="55" />
+      <File FileName="Assets\Scripts\Map.cs" Line="167" Column="25" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="23" Column="26" />
+      <File FileName="Assets\Scripts\SceneManager.cs" Line="7" Column="1" />
+      <File FileName="Assets\Scripts\PlayerName.cs" Line="5" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="D:\Документы\Portfolio\Maze\Assets\Scripts\FileManager.cs" line="18" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
