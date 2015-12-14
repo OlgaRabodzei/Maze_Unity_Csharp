@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+using System;
 
 public class Map : MonoBehaviour {
     private const float TIILES_SCALE = 1f; // 0.9f;    
@@ -60,8 +61,8 @@ public class Map : MonoBehaviour {
     }
 
     public List<Vector3> FindPath(Vector3 startPos, Vector3 finishPos) {
-        Node start = grid[(int)(startPos.x / TIILES_SCALE), (int)(startPos.y / TIILES_SCALE)];
-        Vector3 finish = new Vector3((int)(finishPos.x / TIILES_SCALE), (int)(finishPos.y / TIILES_SCALE));
+		Node start = grid[(int)Math.Round(startPos.x), (int)Math.Round(startPos.y)];
+		Vector3 finish = new Vector3((int)Math.Round(finishPos.x), (int)Math.Round(finishPos.y));
         if (start.position == finish) {
             return null;
         }
@@ -98,13 +99,13 @@ public class Map : MonoBehaviour {
     }
 
     private List<Node> GetAdjacentFor(Vector3 pos) {
-        int x = (int)(pos.x / TIILES_SCALE);
-        int y = (int)(pos.y / TIILES_SCALE);
+        int x = (int)(pos.x);
+        int y = (int)(pos.y);
         List<Node> adjacent = new List<Node>();
-        if (y - 1 > 0 && !grid[x, y - 1].isWall) {
+        if (y - 1 >= 0 && !grid[x, y - 1].isWall) {
             adjacent.Add(grid[x, y - 1]);
         }
-        if (x - 1 > 0 && !grid[x - 1, y].isWall) {
+        if (x - 1 >= 0 && !grid[x - 1, y].isWall) {
             adjacent.Add(grid[x - 1, y]);
         }
         if (x + 1 < COLUMNS && !grid[x + 1, y].isWall) {

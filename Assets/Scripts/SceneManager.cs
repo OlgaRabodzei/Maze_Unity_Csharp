@@ -10,4 +10,8 @@ public class SceneManager : MonoBehaviour {
 	public void ScoreScene () {
 		Application.LoadLevel ("ScoreScene");
 	}
+
+    public void Menu() {
+        Application.LoadLevel("Menu");
+    }
 }
