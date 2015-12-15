@@ -4,7 +4,6 @@ using System.Collections;
 public class MovingObject : MonoBehaviour {
 
     private float inverseMoveTime; //Used to make movement more efficient.
-    private BoxCollider2D boxCollider;
 
     protected Animator animator;
     protected Rigidbody2D rBody;
@@ -15,15 +14,9 @@ public class MovingObject : MonoBehaviour {
 
     // Use this for initialization
     protected virtual void Start() {
-        inverseMoveTime = 1f / moveTime;
         rBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spRender = GetComponent<SpriteRenderer>();
-        boxCollider = GetComponent<BoxCollider2D>();
-    }
-
-    // Update is called once per frame
-    void Update() {
     }
 
     protected void Walk(Vector3 finish) {
@@ -36,6 +29,7 @@ public class MovingObject : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Linecast(transform.position, finish, blockingLayer);
         //Check if anything was hit
         if (hit.transform == null) {
+            inverseMoveTime = 1f / moveTime;
 			rBody.position = Vector3.MoveTowards(rBody.position, finish, inverseMoveTime * Time.deltaTime);
         }
     }

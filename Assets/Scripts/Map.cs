@@ -1,23 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
-using System;
 
 public class Map : MonoBehaviour {
-    private const float TIILES_SCALE = 1f; // 0.9f;    
-    private const int ADD_ENEMY_WHEN_SCORE = 2;//!Change to 10
+    private const int COLUMNS = 10;
+    private const int ROWS = 10;
+    private const int MAX_COINS_COUNT = 10;
+    private const int MAX_ENEMIES_COUNT = 2;
+    private const int ADD_ENEMY_WHEN_SCORE = 10;
+    private const int CHANGE_AI_WHEN_SCORE = 30;
     private Node[,] grid;
     private Transform boardHolder;
     private Transform coinHolder;
     private List<Vector3> freePositions = new List<Vector3>();
     private int coinsCount = 0;
     private int enemiesCount = 0;
+    private List<Zombie> enemies;
 
     public static Map instance = null;
-    public const int COLUMNS = 10;
-    public const int ROWS = 10;
-    public const int MAX_COINS_COUNT = 10;
-    public const int MAX_ENEMIES_COUNT = 2;
     public GameObject hero;
     public GameObject coin;
     public GameObject enemy;
@@ -31,10 +32,10 @@ public class Map : MonoBehaviour {
             Destroy(gameObject);
 
         grid = new Node[COLUMNS, ROWS];
+        enemies = new List<Zombie>();
         CreateMap();
     }
 
-    // Use this for initialization
     void Start() {
         LayoutObjectAtRandom(hero);
         LayoutObjectAtRandom(enemy);
@@ -57,12 +58,12 @@ public class Map : MonoBehaviour {
     }
 
     public Vector3 GetCenter() {
-        return new Vector3(COLUMNS / 2, ROWS / 2, -10);
+        return new Vector3((COLUMNS-1) / 2.0f, (ROWS-1) / 2.0f, -10);
     }
 
     public List<Vector3> FindPath(Vector3 startPos, Vector3 finishPos) {
-		Node start = grid[(int)Math.Round(startPos.x), (int)Math.Round(startPos.y)];
-		Vector3 finish = new Vector3((int)Math.Round(finishPos.x), (int)Math.Round(finishPos.y));
+        Node start = grid[(int)Math.Round(startPos.x), (int)Math.Round(startPos.y)];
+        Vector3 finish = new Vector3((int)Math.Round(finishPos.x), (int)Math.Round(finishPos.y));
         if (start.position == finish) {
             return null;
         }
@@ -126,8 +127,8 @@ public class Map : MonoBehaviour {
 
         //Loop along x axis, starting from -1 (to fill corner) with floor or outerwall edge tiles.
         for (int x = -1; x < COLUMNS + 1; x++) {
-            GameObject instance_down = Instantiate(wall, new Vector3(x * TIILES_SCALE, -1 * TIILES_SCALE, 0f), Quaternion.identity) as GameObject;
-            GameObject instance_up = Instantiate(wall, new Vector3(x * TIILES_SCALE, ROWS * TIILES_SCALE, 0f), Quaternion.identity) as GameObject;
+            GameObject instance_down = Instantiate(wall, new Vector3(x, -1, 0f), Quaternion.identity) as GameObject;
+            GameObject instance_up = Instantiate(wall, new Vector3(x, ROWS, 0f), Quaternion.identity) as GameObject;
 
             instance_down.transform.SetParent(boardHolder);
             instance_up.transform.SetParent(boardHolder);
@@ -135,8 +136,8 @@ public class Map : MonoBehaviour {
 
         //Loop along y axis, starting from -1 to place floor or outerwall tiles.
         for (int y = 0; y < ROWS; y++) {
-            GameObject instance_left = Instantiate(wall, new Vector3(-1 * TIILES_SCALE, y * TIILES_SCALE, 0f), Quaternion.identity) as GameObject;
-            GameObject instance_right = Instantiate(wall, new Vector3(COLUMNS * TIILES_SCALE, y * TIILES_SCALE, 0f), Quaternion.identity) as GameObject;
+            GameObject instance_left = Instantiate(wall, new Vector3(-1, y, 0f), Quaternion.identity) as GameObject;
+            GameObject instance_right = Instantiate(wall, new Vector3(COLUMNS, y, 0f), Quaternion.identity) as GameObject;
 
             instance_left.transform.SetParent(boardHolder);
             instance_right.transform.SetParent(boardHolder);
@@ -147,7 +148,7 @@ public class Map : MonoBehaviour {
         Transform groundHolder = new GameObject("Ground").transform;
         for (int x = 0; x < COLUMNS; x++) {
             for (int y = 0; y < ROWS; y++) {
-                Vector3 pos = new Vector3(x * TIILES_SCALE, y * TIILES_SCALE, 0f);
+                Vector3 pos = new Vector3(x, y, 0f);
                 GameObject instance = Instantiate(ground, pos, Quaternion.identity) as GameObject;
                 instance.transform.SetParent(groundHolder);
                 grid[x, y] = new Node(false, pos);
@@ -162,19 +163,19 @@ public class Map : MonoBehaviour {
         }
     }
 
-	public Vector3 GetRandomPosition(){
-		int randomIndex = Random.Range(0, freePositions.Count);
-		Vector3 randomPosition = freePositions[randomIndex];
-		return randomPosition;
-	}
+    public Vector3 GetRandomPosition() {
+        int randomIndex = Random.Range(0, freePositions.Count);
+        Vector3 randomPosition = freePositions[randomIndex];
+        return randomPosition;
+    }
 
     //RandomPosition returns a random position from our list freePositions.
     private Vector3 RandomPosition(bool _isWall) {
         //Declare an integer randomIndex, set it's value to a random number between 0 and the count of items in our List freePositions.
         int randomIndex = Random.Range(0, freePositions.Count);
         if (_isWall) {
-            int x = (int)(freePositions[randomIndex].x / TIILES_SCALE);
-            int y = (int)(freePositions[randomIndex].y / TIILES_SCALE);
+            int x = (int)(freePositions[randomIndex].x);
+            int y = (int)(freePositions[randomIndex].y);
             grid[x, y].isWall = _isWall;
         }
         //Declare a variable of type Vector3 called randomPosition, set it's value to the entry at randomIndex from our List freePositions.
@@ -192,6 +193,9 @@ public class Map : MonoBehaviour {
 
         //Instantiate tileChoice at the position returned by RandomPosition with no change in rotation
         GameObject instance = Instantiate(tile, randomPosition, Quaternion.identity) as GameObject;
+        if (tile == enemy) {
+            enemies.Add(instance.GetComponent<Zombie>());
+        }
     }
 
     private void LayoutObjectAtRandom(GameObject tile, Transform holder) {
@@ -223,7 +227,16 @@ public class Map : MonoBehaviour {
         }
     }
 
-    public void SpeedUpEnemies() { }
+    public void UpdateEnemiesAI() {
+        foreach (var zombie in enemies) {
+            if (zombie.walkRandom && GameManager.instance.score == CHANGE_AI_WHEN_SCORE) {
+                zombie.walkRandom = false;
+            }
+            if (GameManager.instance.score > CHANGE_AI_WHEN_SCORE) {
+                Zombie.SpeedUp(zombie);
+            }
+        }
+    }
 
     public void DeleteCoin(GameObject coin) {
         freePositions.Add(coin.transform.position);

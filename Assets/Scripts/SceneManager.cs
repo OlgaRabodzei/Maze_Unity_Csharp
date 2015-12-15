@@ -4,14 +4,14 @@ using System.Collections;
 public class SceneManager : MonoBehaviour {
 
 	public void MainScene () {
-		Application.LoadLevel ("MainScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
 	}
 	
 	public void ScoreScene () {
-		Application.LoadLevel ("ScoreScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("ScoreScene");
 	}
 
     public void Menu() {
-        Application.LoadLevel("Menu");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
 }

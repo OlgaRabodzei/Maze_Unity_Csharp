@@ -9,18 +9,12 @@ using System;
 public class FileManager : MonoBehaviour {
     public Text scoreTable;
 
-	// Use this for initialization
 	void Start () {
         if (EditorSceneManager.GetActiveScene().name == "ScoreScene") {
             Load();
         }
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	public void Save()	{
 		XmlDocument xmlDoc = new XmlDocument();
 		XmlNode rootNode;

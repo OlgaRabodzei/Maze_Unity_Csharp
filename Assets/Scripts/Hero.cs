@@ -3,12 +3,10 @@ using System.Collections;
 
 public class Hero : MovingObject {
 
-    // Use this for initialization
     protected override void Start() {
         base.Start();
     }
 
-    // Update is called once per frame
     void Update() {
         Vector2 movement = new Vector2((int)Input.GetAxisRaw("Horizontal"), (int)Input.GetAxisRaw("Vertical"));
         //Check if moving horizontally, if so set vertical to zero.
@@ -33,6 +31,7 @@ public class Hero : MovingObject {
         if (other.tag == "Coin") {
 			GameManager.instance.score++;
             Map.instance.DeleteCoin(other.gameObject);
+            Map.instance.UpdateEnemiesAI();
         }
     }
 

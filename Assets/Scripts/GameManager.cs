@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour {
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-        //DontDestroyOnLoad(gameObject);
 
         mapScript = GetComponent<Map>();
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -23,19 +22,16 @@ public class GameManager : MonoBehaviour {
 		user = PlayerName.user;
     }
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
-
 	public void GameOver(){
 		if (gameOver) {
 			FileManager fileManager = GetComponent<FileManager> ();
 			fileManager.Save ();
-			Application.LoadLevel ("Menu");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
 		}
 	}
+
+    void OnApplicationQuit() {
+        FileManager fileManager = GetComponent<FileManager>();
+        fileManager.Save();
+    }
 }

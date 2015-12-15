@@ -1,8 +1,36 @@
 <Score>
-  <User score="10" gameOver="True" date="12/14/2015 8:57:10 PM">Player1</User>
-  <User score="5" gameOver="True" date="12/14/2015 9:22:05 PM">Player1</User>
-  <User score="1" gameOver="True" date="12/14/2015 9:34:35 PM">Player1</User>
-  <User score="4" gameOver="True" date="12/14/2015 9:35:40 PM">Player1</User>
-  <User score="10" gameOver="True" date="12/14/2015 9:37:41 PM">kate</User>
-  <User score="6" gameOver="Game over" date="12/14/2015 11:40:29 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 9:57:42 PM">Kate</User>
+  <User score="32" gameOver="Exit" date="12/15/2015 10:01:12 PM">Kate</User>
+  <User score="2" gameOver="Exit" date="12/15/2015 10:03:12 PM">Player1</User>
+  <User score="0" gameOver="Game over" date="12/15/2015 10:03:40 PM">Player1</User>
+  <User score="2" gameOver="Exit" date="12/15/2015 10:06:11 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:06:45 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:08:54 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:10:26 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:10:53 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:11:58 PM">Player1</User>
+  <User score="14" gameOver="Game over" date="12/15/2015 10:13:52 PM">Jane</User>
+  <User score="28" gameOver="Game over" date="12/15/2015 10:16:19 PM">Jane</User>
+  <User score="4" gameOver="Game over" date="12/15/2015 10:19:11 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:26:35 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:26:51 PM">Player1</User>
+  <User score="0" gameOver="Game over" date="12/15/2015 10:29:21 PM">Player1</User>
+  <User score="4" gameOver="Exit" date="12/15/2015 10:30:25 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:32:09 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:32:38 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:33:11 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:35:05 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:35:25 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:36:17 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:36:39 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:36:53 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:37:17 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:38:08 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:38:13 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:38:41 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:39:55 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:41:32 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:43:35 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:44:14 PM">Player1</User>
+  <User score="0" gameOver="Exit" date="12/15/2015 10:44:37 PM">Player1</User>
 </Score>
