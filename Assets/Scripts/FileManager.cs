@@ -2,15 +2,13 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Xml;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using System;
 
 public class FileManager : MonoBehaviour {
     public Text scoreTable;
 
 	void Start () {
-        if (EditorSceneManager.GetActiveScene().name == "ScoreScene") {
+		if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "ScoreScene") {
             Load();
         }
 	}
@@ -77,6 +75,3 @@ public class FileManager : MonoBehaviour {
 		}
 	}
 }
-
-
-

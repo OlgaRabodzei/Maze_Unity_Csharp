@@ -13,9 +13,6 @@ public class Hero : MovingObject {
         if (movement.x != 0) {
             movement.y = 0;
         }
-        else if (movement.y != 0) {//Check if moving vertically, if so set horizontal to zero.
-            movement.x = 0;
-        }
 
         if (movement != Vector2.zero) {
             animator.SetBool("is_walking", true);

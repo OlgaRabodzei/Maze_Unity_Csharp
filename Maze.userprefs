@@ -1,9 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FileManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Zombie.cs">
     <Files>
-      <File FileName="Assets\Scripts\Map.cs" Line="111" Column="24" />
-      <File FileName="Assets\Scripts\FileManager.cs" Line="56" Column="4" />
+      <File FileName="Assets\Scripts\PlayerName.cs" Line="2" Column="3" />
+      <File FileName="Assets\Scripts\SceneManager.cs" Line="9" Column="2" />
+      <File FileName="Assets\Scripts\Zombie.cs" Line="11" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

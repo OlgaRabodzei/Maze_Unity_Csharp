@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-
     private Map mapScript;
 
     public static GameManager instance = null;            
     public string user;
 	public bool gameOver = false;
 	public int score = 0;
+	public Text scoreText;
 
     void Awake() {
         if (instance == null)
@@ -21,6 +22,10 @@ public class GameManager : MonoBehaviour {
         camera.transform.position = mapScript.GetCenter();
 		user = PlayerName.user;
     }
+
+	void Update(){
+		scoreText.text = "Score: " + score.ToString ();
+	}
 
 	public void GameOver(){
 		if (gameOver) {

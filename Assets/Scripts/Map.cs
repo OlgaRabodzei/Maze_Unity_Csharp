@@ -10,12 +10,12 @@ public class Map : MonoBehaviour {
     private const int MAX_ENEMIES_COUNT = 2;
     private const int ADD_ENEMY_WHEN_SCORE = 10;
     private const int CHANGE_AI_WHEN_SCORE = 30;
-    private Node[,] grid;
+    private Node[,] grid; // Map nodes
     private Transform boardHolder;
     private Transform coinHolder;
-    private List<Vector3> freePositions = new List<Vector3>();
-    private int coinsCount = 0;
-    private int enemiesCount = 0;
+    private List<Vector3> freePositions = new List<Vector3>(); // List of positions where we can put an object
+    private int coinsCount = 0; // Coins on the map
+    private int enemiesCount = 0; // Enemies on the map
     private List<Zombie> enemies;
 
     public static Map instance = null;
@@ -41,6 +41,7 @@ public class Map : MonoBehaviour {
         LayoutObjectAtRandom(enemy);
         enemiesCount++;
         coinHolder = new GameObject("Coins").transform;
+		// Invoke coins generation
         InvokeRepeating("CheckCoinsCount", 5, 5);
     }
 
@@ -57,10 +58,20 @@ public class Map : MonoBehaviour {
         WallsSetup();
     }
 
+	/// <summary>
+	/// Gets the center of the map.
+	/// </summary>
+	/// <returns>The center.</returns>
     public Vector3 GetCenter() {
-        return new Vector3((COLUMNS-1) / 2.0f, (ROWS-1) / 2.0f, -10);
+        return new Vector3((COLUMNS - 1) / 2.0f, (ROWS - 1) / 2.0f, -10);
     }
 
+	/// <summary>
+	/// Finds the path using BFS.
+	/// </summary>
+	/// <returns>The path.</returns>
+	/// <param name="startPos">Start position.</param>
+	/// <param name="finishPos">Finish position.</param>
     public List<Vector3> FindPath(Vector3 startPos, Vector3 finishPos) {
         Node start = grid[(int)Math.Round(startPos.x), (int)Math.Round(startPos.y)];
         Vector3 finish = new Vector3((int)Math.Round(finishPos.x), (int)Math.Round(finishPos.y));
@@ -99,6 +110,11 @@ public class Map : MonoBehaviour {
         return null;
     }
 
+	/// <summary>
+	/// Gets the list of free adjacent cells for current cell.
+	/// </summary>
+	/// <returns>List of adjacent cells.</returns>
+	/// <param name="pos">Current cell.</param>
     private List<Node> GetAdjacentFor(Vector3 pos) {
         int x = (int)(pos.x);
         int y = (int)(pos.y);
@@ -118,9 +134,9 @@ public class Map : MonoBehaviour {
         return adjacent;
     }
 
-    private void AddObject(GameObject obj) { }
-
-    //Sets up the outer walls and floor (background) of the game board.
+	/// <summary>
+	/// Sets up the outer walls and floor (background) of the game board.
+	/// </summary>
     private void BoardSetup() {
         //Instantiate Board and set boardHolder to its transform.
         boardHolder = new GameObject("Board").transform;
@@ -144,6 +160,9 @@ public class Map : MonoBehaviour {
         }
     }
 
+	/// <summary>
+	/// Initialises the grid with free ground cells.
+	/// </summary>
     private void InitialiseGrid() {
         Transform groundHolder = new GameObject("Ground").transform;
         for (int x = 0; x < COLUMNS; x++) {
@@ -157,41 +176,45 @@ public class Map : MonoBehaviour {
         }
     }
 
+	/// <summary>
+	/// Placed walls on free random cells. 
+	/// TO_DO: As addition make maze generation
+	/// </summary>
     private void WallsSetup() {
         for (int i = 0; i < (COLUMNS - 2) * (ROWS - 2) / 4; i++) {
             LayoutObjectAtRandom(wall, boardHolder);
         }
     }
 
+	/// <summary>
+	/// Returns a random position without removing it from our list freePositions.
+	/// </summary>
+	/// <returns>The random position.</returns>
     public Vector3 GetRandomPosition() {
         int randomIndex = Random.Range(0, freePositions.Count);
         Vector3 randomPosition = freePositions[randomIndex];
         return randomPosition;
     }
 
-    //RandomPosition returns a random position from our list freePositions.
+    /// <summary>
+	/// Returns a random position and remove it from our list freePositions.
+    /// </summary>
+	/// <returns>The random position.</returns>
+    /// <param name="_isWall">If set to <c>true</c> is wall.</param>
     private Vector3 RandomPosition(bool _isWall) {
-        //Declare an integer randomIndex, set it's value to a random number between 0 and the count of items in our List freePositions.
         int randomIndex = Random.Range(0, freePositions.Count);
         if (_isWall) {
             int x = (int)(freePositions[randomIndex].x);
             int y = (int)(freePositions[randomIndex].y);
             grid[x, y].isWall = _isWall;
         }
-        //Declare a variable of type Vector3 called randomPosition, set it's value to the entry at randomIndex from our List freePositions.
         Vector3 randomPosition = freePositions[randomIndex];
-
-        //Remove the entry at randomIndex from the list so that it can't be re-used.
         freePositions.RemoveAt(randomIndex);
-        //Return the randomly selected Vector3 position.
         return randomPosition;
     }
 
     private void LayoutObjectAtRandom(GameObject tile) {
-        //Choose a position for randomPosition by getting a random position from our list of available Vector3s stored in gridPosition
         Vector3 randomPosition = RandomPosition(false);
-
-        //Instantiate tileChoice at the position returned by RandomPosition with no change in rotation
         GameObject instance = Instantiate(tile, randomPosition, Quaternion.identity) as GameObject;
         if (tile == enemy) {
             enemies.Add(instance.GetComponent<Zombie>());
@@ -213,6 +236,9 @@ public class Map : MonoBehaviour {
         instance.transform.SetParent(holder);
     }
 
+	/// <summary>
+	/// Checks the coins count and generate new one if it's posible.
+	/// </summary>
     private void CheckCoinsCount() {
         if (coinsCount < MAX_COINS_COUNT) {
             LayoutObjectAtRandom(coin, coinHolder);
@@ -220,6 +246,9 @@ public class Map : MonoBehaviour {
         }
     }
 
+	/// <summary>
+	/// Checks the enemies count and generate new one if it's posible.
+	/// </summary>
     private void AddEnemy() {
         if (enemiesCount < MAX_ENEMIES_COUNT) {
             LayoutObjectAtRandom(enemy);
@@ -238,12 +267,19 @@ public class Map : MonoBehaviour {
         }
     }
 
+	/// <summary>
+	/// Deletes the coin from map.
+	/// </summary>
+	/// <param name="coin">Coin.</param>
     public void DeleteCoin(GameObject coin) {
         freePositions.Add(coin.transform.position);
         Destroy(coin);
         coinsCount--;
     }
 
+	/// <summary>
+	/// Node. Contains data for map cell.
+	/// </summary>
     private class Node {
         public bool isWall { get; set; }
 

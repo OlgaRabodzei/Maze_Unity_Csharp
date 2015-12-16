@@ -40,4 +40,12 @@ public class Zombie : MovingObject {
     public static void SpeedUp(Zombie zombie) {
         zombie.moveTime -= (float)(zombie.moveTime * 0.05);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        GameObject obj = collision.gameObject;
+        if (obj.tag == "Zombie") {
+            target = Map.instance.GetRandomPosition();
+			path = Map.instance.FindPath (transform.position, target);
+        }
+    }
 }
